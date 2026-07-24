@@ -1,5 +1,5 @@
-import Channel from '../models/Channel.js';
-import Message from '../models/Message.js';
+import {Channel} from '../models/channel.model.js';
+import {Message} from '../models/message.model.js';
 
 export const registerSocketHandlers = (io, socket) => {
   console.log(`Socket connected: ${socket.id} (user: ${socket.user.username})`);

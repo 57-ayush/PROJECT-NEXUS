@@ -2,9 +2,9 @@ import 'dotenv/config';
 import http from 'http';
 import { Server } from 'socket.io';
 import app from './app.js';
-import { connectDB } from './config/db.js';
-import { socketAuth } from './middlewares/socketAuthMiddleware.js';
-import { registerSocketHandlers } from './socket/socketHandlers.js';
+import  connectDB  from './config/db.js';
+import {socketAuth}  from './middlewares/authMiddleware.js';
+import { registerSocketHandlers } from './socket/socketHandler.js';
 
 const PORT = process.env.PORT || 5000;
 

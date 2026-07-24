@@ -1,4 +1,4 @@
-import Channel from '../models/channel.model.js';
+import {Channel} from '../models/channel.model.js';
 
 // @route  POST /api/channels
 export const createChannel = async (req, res) => {

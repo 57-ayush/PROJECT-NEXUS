@@ -2,33 +2,34 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 
 export const protect = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
+  // ... your existing Day 4 code
+};
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'Not authorized, no token provided' });
+export const socketAuth = async (socket, next) => {
+  try {
+    const token = socket.handshake.auth?.token;
+
+    if (!token) {
+      return next(new Error('Authentication error: no token provided'));
     }
 
-    const token = authHeader.split(' ')[1];
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
     const user = await User.findById(decoded.id).select('-passwordHash');
 
     if (!user) {
-      return res.status(401).json({ message: 'Not authorized, user no longer exists' });
+      return next(new Error('Authentication error: user no longer exists'));
     }
 
-    req.user = user;
+    socket.user = user;
     next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Session expired, please log in again' });
+      return next(new Error('Authentication error: session expired'));
     }
     if (err.name === 'JsonWebTokenError') {
-      return res.status(401).json({ message: 'Invalid token' });
+      return next(new Error('Authentication error: invalid token'));
     }
     console.error(err);
-    return res.status(500).json({ message: 'Server error during authentication' });
+    return next(new Error('Authentication error: server error'));
   }
 };

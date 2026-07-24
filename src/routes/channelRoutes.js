@@ -1,8 +1,9 @@
 import express from 'express';
-import { createChannel, getMyChannels } from '../controllers/channelController.js';
-import { sendMessage, getMessages } from '../controllers/messageController.js';
 import { protect } from '../middlewares/authMiddleware.js';
-import { sendMessageValidation } from '../validators/messageValidators.js';
+import { sendMessageValidation } from '../validators/messageValidator.js';
+import { validateRequest } from '../middlewares/validateRequest.js';
+import { sendMessage, getMessages } from '../controllers/messageController.js';
+import { createChannel, getMyChannels } from '../controllers/channelController.js';
 
 const router = express.Router();
 
